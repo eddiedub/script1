@@ -1,0 +1,134 @@
+--Cobra Kai Karate gui combine by jokereddy(eddiedub)
+
+repeat wait() until game:IsLoaded()
+local Venyx = loadstring(game:HttpGet("https://raw.githubusercontent.com/Stefanuk12/Venyx-UI-Library/main/source2.lua"))()
+local UI = Venyx.new({
+  title = " Cobra Kai Karate  - jokereddy"
+})
+
+
+local Themes = {
+  Background = Color3.fromRGB(24, 24, 24),
+  Glow = Color3.fromRGB(0, 0, 0),
+  Accent = Color3.fromRGB(10, 10, 10),
+  LightContrast = Color3.fromRGB(20, 20, 20),
+  DarkContrast = Color3.fromRGB(14, 14, 14),  
+  TextColor = Color3.fromRGB(255, 255, 255)
+}
+
+local Main = UI:addPage({
+    title = "Main",
+})
+local Settings = UI:addPage({
+    title = "Settings",
+})
+
+
+--[[ local generalDiv = Main:addsection({
+    title = "General",
+}) ]]--
+local collectingDiv = Main:addSection({
+    title = "Gui"
+})
+local Colours = Settings:addSection({
+  title = "Colours"
+})
+
+local Players = game:GetService("Players")
+collectingDiv:addButton({ 
+    title = "Bypass anti cheat",
+    callback = function()
+        local vu = game:GetService("VirtualUser")
+game:GetService("Players").LocalPlayer.Idled:connect(function()
+   vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+   wait(1)
+   vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+end)
+    end
+})
+
+local chestCollect = false
+collectingDiv:addToggle({
+    title = "Auto Farm", 
+    toggled = nil,
+    callback = function(value) 
+        chestCollect = value
+        while wait() and chestCollect do
+local args = {
+    [1] = 3
+}
+
+game:GetService("ReplicatedStorage").Attack:FireServer(unpack(args))
+
+
+game:GetService("ReplicatedStorage").Remotes.PushUp:FireServer()
+
+game:GetService("ReplicatedStorage").Remotes.SitUp:FireServer()
+end
+end})
+
+
+    local lolz = false
+    collectingDiv:addToggle({
+        title = "Dumbell Auto Farm",
+        toggled = nil,
+        callback = function(value) 
+            chestCollect = value
+            while wait() and lolz do
+    local args = {
+        [1] = 3
+    }
+    
+local args = {
+    [1] = "Equip"
+}
+
+game:GetService("ReplicatedStorage").Remotes.Dumbell:FireServer(unpack(args))
+
+local args = {
+    [1] = "Rep",
+    [2] = 2
+}
+
+game:GetService("ReplicatedStorage").Remotes.Dumbell:FireServer(unpack(args))
+end
+end})
+
+        local Bench = false
+    collectingDiv:addToggle({
+        title = "Bench Auto Farm", 
+        toggled = nil,
+        callback = function(value) 
+            chestCollect = value
+            while wait() and Bench do
+    
+game:GetService("ReplicatedStorage").Remotes.Bench:FireServer()
+end
+end})
+
+local Players = game:GetService("Players")
+collectingDiv:addButton({ 
+    title = "Extra Gui",
+    callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/vep1032/VepStuff/main/COBRA%20KAI%20KARATE%20%7C%20OPEN%20SOURCE%20GUI"))()
+    end
+})
+
+     
+for theme, color in pairs(Themes) do
+    Colours:addColorPicker({
+        title = theme,
+        default = color,
+        callback = function(color3)
+            UI:setTheme({
+                theme = theme,
+                color3 = color3
+            })
+        end
+    })
+end
+
+UI:SelectPage({
+    page = UI.pages[1],
+    toggle = true
+})
