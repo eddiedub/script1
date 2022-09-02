@@ -1,0 +1,65 @@
+repeat wait() until game:IsLoaded()
+local Venyx = loadstring(game:HttpGet("https://raw.githubusercontent.com/Stefanuk12/Venyx-UI-Library/main/source2.lua"))()
+local UI = Venyx.new({
+  title = "Game name - jokereddy"
+})
+
+local Themes = {
+  Background = Color3.fromRGB(24, 24, 24),
+  Glow = Color3.fromRGB(0, 0, 0),
+  Accent = Color3.fromRGB(10, 10, 10),
+  LightContrast = Color3.fromRGB(20, 20, 20),
+  DarkContrast = Color3.fromRGB(14, 14, 14),  
+  TextColor = Color3.fromRGB(255, 255, 255)
+}
+
+local Main = UI:addPage({
+    title = "Main",
+})
+local Settings = UI:addPage({
+    title = "Settings",
+})
+
+
+--[[ local generalDiv = Main:addsection({
+    title = "General",
+}) ]]--
+local collectingDiv = Main:addSection({
+    title = "Collecting"
+})
+local Colours = Settings:addSection({
+  title = "Colours"
+})
+
+local chestCollect = false
+collectingDiv:addToggle({
+    title = "Collect Chests",
+    toggled = nil,
+    callback = function(value)
+        chestCollect = value
+        while wait() and chestCollect do
+        game:GetService("ReplicatedStorage").Remotes.RequestAttack:FireServer()
+        end
+    end})
+            
+
+
+
+
+for theme, color in pairs(Themes) do
+    Colours:addColorPicker({
+        title = theme,
+        default = color,
+        callback = function(color3)
+            UI:setTheme({
+                theme = theme,
+                color3 = color3
+            })
+        end
+    })
+end
+
+UI:SelectPage({
+    page = UI.pages[1],
+    toggle = true
+})
